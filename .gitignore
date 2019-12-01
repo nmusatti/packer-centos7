@@ -1,0 +1,9 @@
+/build.*
+/*.box
+/output-virtualbox-iso/
+/packer_cache/
+/proxy_env.sh
+/.vagrant/
+*.swp
+*~
+

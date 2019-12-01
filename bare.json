@@ -1,0 +1,5 @@
+{
+  "guest_additions": "disable",
+  "disk_size": "16384",
+  "box_name": "centos7-bare"
+}

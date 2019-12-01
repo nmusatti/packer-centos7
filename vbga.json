@@ -1,0 +1,5 @@
+{
+  "guest_additions": "upload",
+  "disk_size": "32768",
+  "box_name": "centos7-vbga"
+}
