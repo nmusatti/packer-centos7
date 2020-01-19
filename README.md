@@ -19,3 +19,4 @@ result in a `centos7-bare.box` file being created, which may be installed with t
 To build the `vbga` base box, replace `bare` with `vbga` in the commands above.
 
 This project was derived from the templates available in the [packer-templates](https://github.com/maier/packer-templates) project.
+A sibling [packer-centos8](https://github.com/nmusatti/packer-centos8) project may be used to build CentOS 8 boxes.
