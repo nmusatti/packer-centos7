@@ -1,5 +1,7 @@
 /build.*
 /*.box
+/centos7-gui/
+/centos7-mate/
 /output-virtualbox-iso/
 /packer_cache/
 /proxy_env.sh
