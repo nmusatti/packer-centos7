@@ -1,0 +1,28 @@
+{
+  "description": "Build CentOS 7 x86_64 Mate workstation",
+  "variables": {
+      "proxy": "{{ env `http_proxy` }}"
+  }, 
+  "builders": [
+    {
+      "communicator": "ssh",
+      "source_path": "centos7-gui",
+      "output_dir": "./centos7-mate",
+      "box_name": "centos7-mate",
+      "provider": "virtualbox",
+      "skip_add": true,
+      "type": "vagrant"
+    } 
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/mate.sh"
+      ],
+      "environment_vars": [
+        "http_proxy={{ user `proxy` }}"
+      ]
+    }
+  ]
+}
