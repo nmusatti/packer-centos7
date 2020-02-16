@@ -1,4 +1,4 @@
-sudo yum update -y
-sudo yum group install -y gnome-desktop-environment
-sudo systemctl set-default graphical
+yum update -y
+yum group install -y gnome-desktop-environment
+systemctl set-default graphical
 

@@ -22,7 +22,12 @@
       ],
       "environment_vars": [
         "http_proxy={{ user `proxy` }}"
-      ]
+      ],
+      "override": {
+        "vagrant": {
+          "execute_command": "echo 'vagrant'|sudo -S {{ .Vars }} bash '{{.Path}}'"
+        }
+      }
     }
   ]
 }

@@ -1,3 +1,3 @@
-sudo yum update -y
-sudo yum install -y epel-release
-sudo yum group install -y mate-desktop-environment
+yum update -y
+yum install -y epel-release
+yum group install -y mate-desktop-environment
