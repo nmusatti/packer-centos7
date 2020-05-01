@@ -27,7 +27,7 @@ The new box will be stored in the `centos7-gui/package.box` file. It may be inst
 
     vagrant box add -f --name centos7-gui centos7-gui/package.box
 
-Once the `centos7-gui` box is install you may build the `centos7-mate` one by replacing `mate` for `gui` in the last two commands.
+Once the `centos7-gui` box is installed you may build the `centos7-mate` one by replacing `mate` for `gui` in the last two commands.
 
 This project was derived from the templates available in the [packer-templates](https://github.com/maier/packer-templates) project.
 Sibling [packer-centos8](https://github.com/nmusatti/packer-centos8), [packer-centos8-stream](https://github.com/nmusatti/packer-centos8-stream) and
