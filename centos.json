@@ -1,22 +1,81 @@
 {
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 16384,
+      "guest_additions_mode": "{{ user `guest_additions` }}",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "RedHat_64",
+      "hard_drive_interface": "sata",
+      "headless": false,
+      "http_directory": "http",
+      "iso_checksum": "sha256:659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "15m",
+      "ssh_username": "vagrant",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "128"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--graphicscontroller",
+          "vmsvga"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
+    }
+  ],
   "description": "Build base CentOS 7 x86_64",
-  "variables": {
-      "proxy": "{{ env `http_proxy` }}",
-      "guest_additions": "disable",
-      "iso_name": "CentOS-7-x86_64-Minimal-2003.iso",
-      "iso_path": "/sw/centos",
-      "iso_url": "https://mirrorlist.centos.org/pub/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso"
-  },
+  "post-processors": [
+    [
+      {
+        "output": "{{ user `box_name` }}.box",
+        "type": "vagrant",
+        "vagrantfile_template": "Vagrantfile"
+      }
+    ]
+  ],
   "provisioners": [
     {
-      "type": "shell",
-      "scripts": [
-        "scripts/01sshd.sh",
-        "scripts/02vagrant.sh",
-        "scripts/90virtualbox.sh",
-        "scripts/98cleanup.sh",
-        "scripts/99minimize.sh"
-      ],
       "environment_vars": [
         "http_proxy={{ user `proxy` }}",
         "guest_additions_mode={{ user `guest_additions` }}"
@@ -25,57 +84,23 @@
         "virtualbox-iso": {
           "execute_command": "echo 'vagrant'|sudo -S {{ .Vars }} bash '{{.Path}}'"
         }
-      }
+      },
+      "scripts": [
+        "scripts/01sshd.sh",
+        "scripts/02vagrant.sh",
+        "scripts/90virtualbox.sh",
+        "scripts/98cleanup.sh",
+        "scripts/99minimize.sh"
+      ],
+      "type": "shell"
     }
   ],
-  "builders": [
-    {
-      "type": "virtualbox-iso",
-      "virtualbox_version_file": ".vbox_version",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_additions_mode": "{{ user `guest_additions` }}",
-      "guest_os_type": "RedHat_64",
-      "headless": false,
-      "disk_size": 16384,
-      "http_directory": "http",
-      "iso_urls": [
-        "{{ user `iso_path` }}/{{ user `iso_name` }}",
-        "{{ user `iso_url` }}"
-      ],
-      "iso_checksum": "659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193",
-      "iso_checksum_type": "sha256",
-
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "15m",
-      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
-
-      "boot_wait": "10s",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>"
-      ],
-
-     "hard_drive_interface": "sata",
-     "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
-        [ "modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga" ]
-      ]
-    }
-  ],
-  "post-processors": [
-    [{
-      "type": "vagrant",
-      "vagrantfile_template": "Vagrantfile",
-      "output": "{{ user `box_name` }}.box"
-    }]
-  ]
+  "variables": {
+    "guest_additions": "disable",
+    "iso_name": "CentOS-7-x86_64-Minimal-2003.iso",
+    "iso_path": "/sw/centos",
+    "iso_url": "https://mirrorlist.centos.org/pub/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso",
+    "proxy": "{{ env `http_proxy` }}"
+  }
 }
+
